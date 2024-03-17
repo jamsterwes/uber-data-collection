@@ -35,7 +35,7 @@ export default async function Dashboard() {
                             const url = `https://www.google.com/maps/search/${location.latitude.toFixed(6)},+${location.longitude.toFixed(6)}`
 
                             return <TableRow key={location.id}>
-                                <TableCell>{location.id.toString()}</TableCell>
+                                <TableCell className="font-mono">{location.id.toString()}</TableCell>
                                 <TableCell>{location.latitude.toFixed(4)}</TableCell>
                                 <TableCell>{location.longitude.toFixed(4)}</TableCell>
                                 <TableCell>
