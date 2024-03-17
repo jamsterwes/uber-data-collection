@@ -3,6 +3,8 @@ import { GeistSans } from "geist/font/sans";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theming/theme-provider";
 import { ModeToggle } from "@/components/theming/mode-toggle";
+import { WordMark } from "@/components/word-mark";
+import { NavMenu } from "@/components/nav-menu";
 
 export const metadata: Metadata = {
   title: "Promenade Data Collection",
@@ -23,10 +25,10 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-
-          <header className="grid grid-cols-[1fr_4rem] h-16 items-center">
-            <section id="logo-area">
-
+          <header className="grid grid-cols-[1fr_4rem] h-16 items-center border-b">
+            <section id="logo-area" className="flex gap-4">
+              <WordMark />
+              <NavMenu />
             </section>
             <section id="mode-switcher" className="flex items-center justify-center">
               <ModeToggle />
