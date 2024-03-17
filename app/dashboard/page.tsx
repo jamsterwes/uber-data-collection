@@ -1,9 +1,10 @@
-import { getLocations } from "@/actions/locations";
+import { getLocations, uploadLocations } from "@/actions/locations";
 import { getRides } from "@/actions/rides";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { UploadDialog } from "@/components/upload/upload-dialog";
 import { OpenInNewWindowIcon } from "@radix-ui/react-icons";
 
 export default async function Dashboard() {
@@ -22,7 +23,9 @@ export default async function Dashboard() {
     <span className="w-full md:w-[90%] mx-auto h-full px-4 py-4">
       <TabsContent value="locations" className="rounded-md border">
         <div className="flex justify-center gap-2 py-2 border-b">
-          <Button>Upload Locations</Button>
+          <UploadDialog title="Upload Locations CSV:" uploadAction={uploadLocations}>
+            <Button>Upload Locations</Button>
+          </UploadDialog>
           <Button>Download Locations</Button>
         </div>
         <Table>
