@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/components/theming/theme-provider";
 import { ModeToggle } from "@/components/theming/mode-toggle";
 import { WordMark } from "@/components/word-mark";
 import { NavMenu } from "@/components/nav-menu";
+import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: "Promenade Data Collection",
@@ -18,7 +19,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={GeistSans.className}>
+      <body className={cn(
+        GeistSans.className,
+        "grid grid-rows-[4rem_1fr] h-screen"
+      )}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
@@ -34,8 +38,9 @@ export default function RootLayout({
               <ModeToggle />
             </section>
           </header>
-
-          {children}
+          <main>
+            {children}
+          </main>
         </ThemeProvider>
       </body>
     </html>
