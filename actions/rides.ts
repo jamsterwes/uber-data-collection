@@ -12,13 +12,21 @@ export interface Ride {
     distance?: number;
 }
 
-// Randomly generate rides for now
-export async function getRides(): Promise<Ride[]> {
+// Internal
+var seed = 1;
+function random(): number {
+    var x = Math.sin(seed++) * 10000;
+    return x - Math.floor(x);
+}
+
+// Keep random rides static
+const generateRides = async () => {
     // Step 1: Get locations
     const locations = await getLocations(0, 200);
 
     // Step 2: Shuffle
-    const shuffled = locations.map(value => ({ value, sort: Math.random() }))
+    seed = 402512;
+    const shuffled = locations.map(value => ({ value, sort: random() }))
         .sort((a, b) => a.sort - b.sort)
         .map(({ value }) => value);
     
@@ -27,13 +35,33 @@ export async function getRides(): Promise<Ride[]> {
     const ends = shuffled.slice(100, 200);
 
     // Step 4: Build ride data
+    seed = 84812;
     const rides = starts.map((_, i) => ({
         id: i,
         start: starts[i],
         end: ends[i],
-        collected: Math.random() > 0.5
+        collected: random() > 0.5
     }));
 
     // Return ride data
     return rides;
+}
+
+// Randomly generate rides for now
+export async function getRides(): Promise<Ride[]> {
+    return await generateRides();
+}
+
+// Randomly generate rides for now
+export async function getRide(id: number): Promise<Ride> {
+    return (await getRides())[id];
+}
+
+// Get only uncollected rides:
+export async function getUncollectedRides() {
+    // Get rides
+    const rides = await getRides();
+
+    // Now get uncollected
+    return rides.filter(ride => !ride.collected);
 }
