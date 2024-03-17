@@ -21,6 +21,10 @@ export default async function Dashboard() {
         </span>
         <span className="w-full md:w-[90%] mx-auto h-full px-4 py-4">
             <TabsContent value="locations" className="rounded-md border">
+                <div className="flex justify-center gap-2 py-2 border-b">
+                    <Button>Upload Locations</Button>
+                    <Button>Download Locations</Button>
+                </div>
                 <Table>
                     <TableCaption>
                         List of all possible start/end locations.
@@ -42,7 +46,7 @@ export default async function Dashboard() {
                                 <TableCell>{location.latitude.toFixed(4)}</TableCell>
                                 <TableCell>{location.longitude.toFixed(4)}</TableCell>
                                 <TableCell>
-                                    <Button>
+                                    <Button variant="secondary">
                                         <OpenInNewWindowIcon className="mr-2" />
                                         <a href={url} target="_blank">
                                             View
@@ -55,6 +59,9 @@ export default async function Dashboard() {
                 </Table>
             </TabsContent>
             <TabsContent value="rides" className="rounded-md border">
+                <div className="flex justify-center gap-2 py-2 border-b">
+                    <Button>Download Collected</Button>
+                </div>
                 <Table>
                     <TableCaption>
                         List of all possible start/end locations.
