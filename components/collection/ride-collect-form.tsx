@@ -80,7 +80,7 @@ export function RideCollectForm(props: { ride: Ride }) {
         </div>
         <Separator className="mb-4" />
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 md:w-3/5 mx-auto">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 px-2 md:px-0 md:w-3/5 mx-auto">
                 <FormField
                     control={form.control}
                     name="time"

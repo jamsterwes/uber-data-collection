@@ -10,7 +10,7 @@ export default async function CollectPage({params}: {params: {id: string}}) {
     // Get ride
     const ride = await getRide(id);
 
-    return <div className="w-full md:w-[90%] mx-auto py-4">
+    return <div className="w-full px-2 md:px-0 md:w-[90%] mx-auto py-2 md:py-8">
         <RideCollectForm ride={ride} />
     </div>
 }

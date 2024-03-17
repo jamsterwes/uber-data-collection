@@ -80,13 +80,13 @@ export default async function Dashboard() {
             {rides.map(ride => {
               return <TableRow key={ride.id}>
                 <TableCell className="font-mono">{ride.id.toString()}</TableCell>
-                <TableCell>{ride.start.latitude.toFixed(4)}, {ride.start.longitude.toFixed(4)}</TableCell>
-                <TableCell>{ride.start.latitude.toFixed(4)}, {ride.start.longitude.toFixed(4)}</TableCell>
+                <TableCell className="text-xs">{ride.start.latitude.toFixed(4)}, {ride.start.longitude.toFixed(4)}</TableCell>
+                <TableCell className="text-xs">{ride.start.latitude.toFixed(4)}, {ride.start.longitude.toFixed(4)}</TableCell>
                 <TableCell>
                   <Checkbox checked={ride.collected} disabled />
                 </TableCell>
                 {/* TODO: formatting */}
-                <TableCell>{ride.time ?? "0m0s"}</TableCell>
+                <TableCell>{ride.time ?? 0} min</TableCell>
                 <TableCell>{ride.distance ?? 0} mi</TableCell>
               </TableRow>
             })}
