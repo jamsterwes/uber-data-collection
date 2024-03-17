@@ -68,26 +68,28 @@ export default async function Dashboard() {
           </TableCaption>
           <TableHeader>
             <TableRow>
+              <TableHead className="w-[50px]">Collected</TableHead>
               <TableHead>ID</TableHead>
               <TableHead>Start</TableHead>
               <TableHead>End</TableHead>
-              <TableHead>Collected</TableHead>
               <TableHead>Time</TableHead>
               <TableHead>Distance</TableHead>
+              <TableHead>Price</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody className="border-b">
             {rides.map(ride => {
               return <TableRow key={ride.id}>
-                <TableCell className="font-mono">{ride.id.toString()}</TableCell>
-                <TableCell className="text-xs">{ride.start.latitude.toFixed(4)}, {ride.start.longitude.toFixed(4)}</TableCell>
-                <TableCell className="text-xs">{ride.start.latitude.toFixed(4)}, {ride.start.longitude.toFixed(4)}</TableCell>
                 <TableCell>
                   <Checkbox checked={ride.collected} disabled />
                 </TableCell>
+                <TableCell className="font-mono">{ride.id.toString()}</TableCell>
+                <TableCell className="text-xs">{ride.start.latitude.toFixed(4)}, {ride.start.longitude.toFixed(4)}</TableCell>
+                <TableCell className="text-xs">{ride.start.latitude.toFixed(4)}, {ride.start.longitude.toFixed(4)}</TableCell>
                 {/* TODO: formatting */}
                 <TableCell>{ride.time ?? 0} min</TableCell>
                 <TableCell>{ride.distance ?? 0} mi</TableCell>
+                <TableCell>${(ride.price ?? 0).toFixed(2)}</TableCell>
               </TableRow>
             })}
           </TableBody>
