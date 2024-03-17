@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { LocalTimeInput } from "@/app/components/local-time-input";
+import { LocalTimeInput } from "@/components/local-time-input";
 
 export const CollectionForm = () => {
   const textInput = "bg-stone-50 dark:bg-white text-stone-950 "

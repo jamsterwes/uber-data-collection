@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import Image from "next/image";
+import { GeistSans } from "geist/font/sans";
 import "./globals.css";
-
-const inter = Inter({ subsets: ["latin"] });
+import { ThemeProvider } from "@/components/theming/theme-provider";
+import { ModeToggle } from "@/components/theming/mode-toggle";
 
 export const metadata: Metadata = {
   title: "Promenade Data Collection",
@@ -16,20 +15,26 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="text-stone-950 dark:bg-black dark:text-white">
-      <body className={inter.className}>
-        <div className="grid grid-rows-[72px_1fr]">
-          <header className="h-full w-full flex items-center gap-2">
-            <span>
-              <Image src="/promenade.svg" alt="logo-dark-theme" width={32} height={32} className="hidden dark:block aspect-square mx-2" />
-              <Image src="/promenade-black.svg" alt="logo-light-theme" width={32} height={32} className="block dark:hidden aspect-square mx-2" />
-            </span>
-            <h1 className="text-3xl font-extrabold">Promenade Team</h1>
+    <html lang="en">
+      <body className={GeistSans.className}>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+
+          <header className="grid grid-cols-[1fr_4rem] h-16 items-center">
+            <section id="logo-area">
+
+            </section>
+            <section id="mode-switcher" className="flex items-center justify-center">
+              <ModeToggle />
+            </section>
           </header>
-          <main className="h-full w-full">
-            {children}
-          </main>
-        </div>
+
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );
