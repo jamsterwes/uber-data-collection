@@ -1,5 +1,7 @@
 import { getLocations } from "@/actions/locations";
+import { getRides } from "@/actions/rides";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { OpenInNewWindowIcon } from "@radix-ui/react-icons";
@@ -8,6 +10,7 @@ export default async function Dashboard() {
 
     // TODO: do this better lmao
     const locations = await getLocations();
+    const rides = await getRides();
 
     return <Tabs defaultValue="locations" className="w-full h-full grid grid-rows-[2em_1fr] pt-2">
         <span className="w-full flex justify-center">
@@ -16,7 +19,7 @@ export default async function Dashboard() {
                 <TabsTrigger value="rides">Rides</TabsTrigger>
             </TabsList>
         </span>
-        <span className="w-full h-full px-4 pt-2">
+        <span className="w-full md:w-[90%] mx-auto h-full px-4 py-4">
             <TabsContent value="locations" className="rounded-md border">
                 <Table>
                     <TableCaption>
@@ -51,8 +54,37 @@ export default async function Dashboard() {
                     </TableBody>
                 </Table>
             </TabsContent>
-            <TabsContent value="rides">
-                ...
+            <TabsContent value="rides" className="rounded-md border">
+                <Table>
+                    <TableCaption>
+                        List of all possible start/end locations.
+                    </TableCaption>
+                    <TableHeader>
+                        <TableRow>
+                            <TableHead>ID</TableHead>
+                            <TableHead>Start</TableHead>
+                            <TableHead>End</TableHead>
+                            <TableHead>Collected</TableHead>
+                            <TableHead>Time</TableHead>
+                            <TableHead>Distance</TableHead>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody className="border-b">
+                        {rides.map(ride => {
+                            return <TableRow key={ride.id}>
+                                <TableCell className="font-mono">{ride.id.toString()}</TableCell>
+                                <TableCell>{ride.start.latitude.toFixed(4)}, {ride.start.longitude.toFixed(4)}</TableCell>
+                                <TableCell>{ride.start.latitude.toFixed(4)}, {ride.start.longitude.toFixed(4)}</TableCell>
+                                <TableCell>
+                                    <Checkbox checked={ride.collected} disabled />
+                                </TableCell>
+                                {/* TODO: formatting */}
+                                <TableCell>{ride.time ?? "0m0s"}</TableCell>
+                                <TableCell>{ride.distance ?? 0} mi</TableCell>
+                            </TableRow>
+                        })}
+                    </TableBody>
+                </Table>
             </TabsContent>
         </span>
     </Tabs>
