@@ -10,6 +10,7 @@ export interface Ride {
     collected: boolean;
     time?: number;
     distance?: number;
+    price?: number;
 }
 
 // Internal
@@ -40,7 +41,10 @@ const generateRides = async () => {
         id: i,
         start: starts[i],
         end: ends[i],
-        collected: random() > 0.5
+        collected: random() > 0.5,
+        time: 0,
+        distance: 0,
+        price: 0
     }));
 
     // Return ride data
@@ -64,4 +68,11 @@ export async function getUncollectedRides() {
 
     // Now get uncollected
     return rides.filter(ride => !ride.collected);
+}
+
+// Update ride
+export async function updateRide(id: number, time: number, distance: number, price: number) {
+    // TODO: set that ride's time, distance, and set collected=true
+
+    // TODO: invalidate stuff
 }
