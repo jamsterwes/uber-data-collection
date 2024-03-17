@@ -7,7 +7,7 @@ export function NavMenu() {
     return <NavigationMenu>
         <NavigationMenuList>
             <NavigationMenuItem>
-                <Link href="/" legacyBehavior passHref>
+                <Link href="/collect" legacyBehavior passHref>
                     <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                         Collect
                     </NavigationMenuLink>

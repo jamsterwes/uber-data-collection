@@ -6,6 +6,7 @@ import { ModeToggle } from "@/components/theming/mode-toggle";
 import { WordMark } from "@/components/word-mark";
 import { NavMenu } from "@/components/nav-menu";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Promenade Data Collection",
@@ -30,8 +31,10 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <header className="grid grid-cols-[1fr_4rem] h-16 items-center border-b">
-            <section id="logo-area" className="flex gap-4">
-              <WordMark />
+            <section id="logo-area" className="flex gap-4 items-center">
+              <Link href="/" className="h-full">
+                <WordMark />
+              </Link>
               <NavMenu />
             </section>
             <section id="mode-switcher" className="flex items-center justify-center">
