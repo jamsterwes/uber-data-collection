@@ -71,7 +71,10 @@ export async function getUncollectedRides() {
 }
 
 // Update ride
-export async function updateRide(id: number, time: number, distance: number, price: number) {
+export async function updateRide(id: number, startCoordinate: string, endCoordinate: string,
+    distance: number, startTime:string, travelTime:number, trafficDelay: number, historicTime: number,
+    noTrafficTime: string, price: number) {
+        
     // TODO: set that ride's time, distance, and set collected=true
 
     // TODO: invalidate stuff
