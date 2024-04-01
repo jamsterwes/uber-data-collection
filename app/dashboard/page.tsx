@@ -1,5 +1,6 @@
 import { getLocations, uploadLocations } from "@/actions/locations";
 import { generateRides, getRides } from "@/actions/rides";
+import DeleteRidesButton from "@/components/delete-rides-button";
 import GenerateRidesButton from "@/components/generate-rides-button";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -65,6 +66,7 @@ export default async function Dashboard() {
       <TabsContent value="rides" className="rounded-md border">
         <div className="flex justify-center gap-2 py-2 border-b">
           <GenerateRidesButton />
+          <DeleteRidesButton />
           <Button>Download Collected</Button>
         </div>
         <Table>

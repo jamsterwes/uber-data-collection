@@ -63,6 +63,10 @@ export async function getRides(): Promise<Ride[]> {
         end_longitude: any
         collected: boolean
         time: any
+        start_time: Date | null
+        traffic_delay: any
+        historic_time: any
+        no_traffic_time: any
         distance: any
         price: any
         id: number
@@ -79,6 +83,9 @@ export async function getRides(): Promise<Ride[]> {
         start_longitude: parseFloat(ride.start_longitude),
         end_latitude: parseFloat(ride.end_latitude),
         end_longitude: parseFloat(ride.end_longitude),
+        traffic_delay: parseFloat(ride.traffic_delay),
+        historic_time: parseFloat(ride.historic_time),
+        no_traffic_time: parseFloat(ride.no_traffic_time),
         time: parseFloat(ride.time ?? "0"),
         distance: parseFloat(ride.distance ?? "0"),
         price: parseFloat(ride.price ?? "0")
@@ -102,16 +109,6 @@ export async function getUncollectedRides() {
 }
 
 // Update ride
-export async function updateRide(id: number, startCoordinate: string, endCoordinate: string,
-    distance: number, startTime:string, travelTime:number, trafficDelay: number, historicTime: number,
-    noTrafficTime: string, price: number) {
-        
-    // TODO: set that ride's time, distance, and set collected=true
-
-    // TODO: invalidate stuff
-}
-
-// Update ride
 export async function updateRideWithPrice(id: number, price: number) {
     // Set that ride's price
     await db
@@ -121,7 +118,8 @@ export async function updateRideWithPrice(id: number, price: number) {
             price: price
         })
         .execute();
-    
-    // Revalidate dashboard (?)
-    revalidatePath('/dashboard', 'page');
+}
+
+export async function deleteRides() {
+    await db.deleteFrom('ride').execute();
 }

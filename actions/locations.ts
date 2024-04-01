@@ -53,9 +53,6 @@ export async function uploadLocations(data: FormData) {
         } catch (e) {
             console.error(e);
         }
-        
-        // Revalidate dashboard
-        revalidatePath('/dashboard');
     }
 }
 

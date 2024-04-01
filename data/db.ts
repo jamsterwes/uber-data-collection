@@ -27,6 +27,10 @@ export interface RideTable {
     end_longitude: number
     collected: boolean
     time: number | null
+    start_time: Date | null
+    traffic_delay: number | null
+    historic_time: number | null
+    no_traffic_time: number | null
     distance: number | null
     price: number | null
 }
