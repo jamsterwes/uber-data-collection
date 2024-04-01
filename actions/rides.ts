@@ -69,6 +69,7 @@ export async function getRides(): Promise<Ride[]> {
     }[] = await db
         .selectFrom('ride')
         .selectAll()
+        .orderBy('id asc')
         .execute();
     
     // Convert the numbers

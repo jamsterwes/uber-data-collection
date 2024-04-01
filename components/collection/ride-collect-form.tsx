@@ -1,43 +1,17 @@
 "use client"
 
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import { z } from "zod";
-
 import { Button } from "@/components/ui/button"
-import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-} from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Separator } from "@/components/ui/separator"
-import { updateRideWithPrice } from "@/actions/rides"
 import { MobileIcon } from "@radix-ui/react-icons";
 
 import { type Ride } from "@/data/db";
-
-const formSchema = z.object({
-    price: z.coerce.number().gte(0)
-})
+import { updateRideWithPrice } from "@/actions/rides";
+import { useState } from "react";
 
 export function RideCollectForm(props: { ride: Ride }) {
-    // Define form
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
-        defaultValues: {
-            price: 0
-        }
-    })
-
-    // Define submit handler
-    function onSubmit(values: z.infer<typeof formSchema>) {
-        // Update ride with its price
-        updateRideWithPrice(props.ride.id, values.price);
-    }
+    // State for price
+    const [price, setPrice] = useState<number>(0);
 
     // Form
     return (<>
@@ -81,7 +55,7 @@ export function RideCollectForm(props: { ride: Ride }) {
             </div>
             <Separator className="mb-4" />
         </div>
-        <Form {...form}>
+        {/* <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 px-2 md:px-0 md:w-3/5 mx-auto">
                 <FormField
                     control={form.control}
@@ -98,6 +72,12 @@ export function RideCollectForm(props: { ride: Ride }) {
                 />
                 <Button type="submit" className="font-bold w-full">Submit</Button>
             </form>
-        </Form>
+        </Form> */}
+
+        <div className="flex flex-col gap-2 w-4/5 mx-auto">
+            <small>Price (in $)</small>
+            <Input type="number" placeholder="0.00" value={price} onChange={e => setPrice(parseFloat(e.target.value))}></Input>
+            <Button onClick={() => updateRideWithPrice(props.ride.id, price)} className="w-48 mx-auto">Submit</Button>
+        </div>
     </>)
 }

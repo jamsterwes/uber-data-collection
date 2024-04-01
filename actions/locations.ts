@@ -66,6 +66,7 @@ export async function getLocations(start: number = 1, maxCount: number = 100): P
         .selectFrom('location')
         .select(['id', 'longitude', 'latitude'])
         .where('id', '>=', start)
+        .orderBy('id asc')
         .limit(maxCount)
         .execute();
     
