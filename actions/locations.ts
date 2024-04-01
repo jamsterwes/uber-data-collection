@@ -61,10 +61,11 @@ export async function uploadLocations(data: FormData) {
 
 // Get locations
 // TODO: pagination
-export async function getLocations(start: number = 0, maxCount: number = 100): Promise<Location[]> {
+export async function getLocations(start: number = 1, maxCount: number = 100): Promise<Location[]> {
     const locs: { id: number, longitude: any, latitude: any }[] = await db
         .selectFrom('location')
         .select(['id', 'longitude', 'latitude'])
+        .where('id', '>=', start)
         .limit(maxCount)
         .execute();
     

@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/button"
 import {
     Form,
     FormControl,
-    FormDescription,
     FormField,
     FormItem,
     FormLabel,
@@ -16,8 +15,10 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Separator } from "@/components/ui/separator"
-import { Ride, updateRide } from "@/actions/rides"
-import { MobileIcon, OpenInNewWindowIcon } from "@radix-ui/react-icons";
+import { updateRideWithPrice } from "@/actions/rides"
+import { MobileIcon } from "@radix-ui/react-icons";
+
+import { type Ride } from "@/data/db";
 
 const formSchema = z.object({
     price: z.coerce.number().gte(0)
@@ -34,9 +35,8 @@ export function RideCollectForm(props: { ride: Ride }) {
 
     // Define submit handler
     function onSubmit(values: z.infer<typeof formSchema>) {
-        // Update ride
-
-        // ...
+        // Update ride with its price
+        updateRideWithPrice(props.ride.id, values.price);
     }
 
     // Form
@@ -49,13 +49,13 @@ export function RideCollectForm(props: { ride: Ride }) {
             <h2 className="text-xl font-bold">
                 Start Location:&nbsp;&nbsp;
                 <span className="font-mono">
-                    {props.ride.start.latitude.toFixed(4)}, {props.ride.start.longitude.toFixed(4)}
+                    {props.ride.start_latitude.toFixed(4)}, {props.ride.start_longitude.toFixed(4)}
                 </span>
             </h2>
             <h2 className="text-xl font-bold">
                 End Location:&nbsp;&nbsp;
                 <span className="font-mono">
-                    {props.ride.end.latitude.toFixed(4)}, {props.ride.end.longitude.toFixed(4)}
+                    {props.ride.end_latitude.toFixed(4)}, {props.ride.end_longitude.toFixed(4)}
                 </span>
             </h2>
             <h2 className="text-xl font-bold">
@@ -72,7 +72,7 @@ export function RideCollectForm(props: { ride: Ride }) {
             </h2>
             <Separator className="mb-4" />
             <div className="flex gap-2">
-                <a target="_blank" href={`uber://?action=setPickup&client_id=W9IJVfDtraQeCVxSeWFYfxtpE2InanIl&pickup[latitude]=${props.ride.start.latitude}&pickup[longitude]=${props.ride.start.longitude}&dropoff[latitude]=${props.ride.end.latitude}&dropoff[longitude]=${props.ride.end.longitude}`}>
+                <a target="_blank" href={`uber://?action=setPickup&client_id=W9IJVfDtraQeCVxSeWFYfxtpE2InanIl&pickup[latitude]=${props.ride.start_latitude}&pickup[longitude]=${props.ride.start_longitude}&dropoff[latitude]=${props.ride.end_latitude}&dropoff[longitude]=${props.ride.end_longitude}`}>
                     <Button className="w-fit font-bold" variant="secondary">
                         <MobileIcon className="mr-1" />
                         Open in Uber
