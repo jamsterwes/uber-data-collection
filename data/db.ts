@@ -1,4 +1,5 @@
 import { createKysely } from '@vercel/postgres-kysely';
+import * as pg from 'pg';
 
 import {
     Generated,
