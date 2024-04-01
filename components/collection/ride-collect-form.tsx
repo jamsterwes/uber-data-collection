@@ -20,8 +20,6 @@ import { Ride, updateRide } from "@/actions/rides"
 import { MobileIcon, OpenInNewWindowIcon } from "@radix-ui/react-icons";
 
 const formSchema = z.object({
-    time: z.coerce.number().gte(0),
-    distance: z.coerce.number().gte(0),
     price: z.coerce.number().gte(0)
 })
 
@@ -30,8 +28,6 @@ export function RideCollectForm(props: { ride: Ride }) {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            time: 0,
-            distance: 0,
             price: 0
         }
     })
@@ -39,7 +35,6 @@ export function RideCollectForm(props: { ride: Ride }) {
     // Define submit handler
     function onSubmit(values: z.infer<typeof formSchema>) {
         // Update ride
-        updateRide(props.ride.id, values.time, values.distance, values.price)
 
         // ...
     }
@@ -63,6 +58,19 @@ export function RideCollectForm(props: { ride: Ride }) {
                     {props.ride.end.latitude.toFixed(4)}, {props.ride.end.longitude.toFixed(4)}
                 </span>
             </h2>
+            <h2 className="text-xl font-bold">
+                Time:&nbsp;&nbsp;
+                <span className="font-normal">
+                    {props.ride.time} min
+                </span>
+            </h2>
+            <h2 className="text-xl font-bold">
+                Distance:&nbsp;&nbsp;
+                <span className="font-normal">
+                    {props.ride.distance} mi
+                </span>
+            </h2>
+            <Separator className="mb-4" />
             <div className="flex gap-2">
                 <a target="_blank" href={`uber://?action=setPickup&client_id=W9IJVfDtraQeCVxSeWFYfxtpE2InanIl&pickup[latitude]=${props.ride.start.latitude}&pickup[longitude]=${props.ride.start.longitude}&dropoff[latitude]=${props.ride.end.latitude}&dropoff[longitude]=${props.ride.end.longitude}`}>
                     <Button className="w-fit font-bold" variant="secondary">
@@ -70,43 +78,11 @@ export function RideCollectForm(props: { ride: Ride }) {
                         Open in Uber
                     </Button>
                 </a>
-                <a target="_blank" href={`https://www.google.com/maps/dir/${props.ride.start.latitude},${props.ride.start.longitude}/${props.ride.end.latitude},${props.ride.end.longitude}`}>
-                    <Button className="w-fit font-bold" variant="secondary">
-                        <OpenInNewWindowIcon className="mr-1" />
-                        Open in Google Maps
-                    </Button>
-                </a>
             </div>
+            <Separator className="mb-4" />
         </div>
-        <Separator className="mb-4" />
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 px-2 md:px-0 md:w-3/5 mx-auto">
-                <FormField
-                    control={form.control}
-                    name="time"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Time (in minutes)</FormLabel>
-                            <FormControl>
-                                <Input type="number" placeholder="shadcn" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
-                <FormField
-                    control={form.control}
-                    name="distance"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Distance (in mi)</FormLabel>
-                            <FormControl>
-                                <Input type="number" placeholder="shadcn" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
                 <FormField
                     control={form.control}
                     name="price"

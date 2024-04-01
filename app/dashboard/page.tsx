@@ -63,6 +63,7 @@ export default async function Dashboard() {
       </TabsContent>
       <TabsContent value="rides" className="rounded-md border">
         <div className="flex justify-center gap-2 py-2 border-b">
+          <Button>Generate Rides</Button>
           <Button>Download Collected</Button>
         </div>
         <Table>
