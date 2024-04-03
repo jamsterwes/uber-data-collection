@@ -3,6 +3,8 @@
 import { getLocations } from "./locations"
 import { type Ride, type Location } from "@/data/db";
 import db from "@/data/db";
+import { useEffect } from 'react';
+import { getRouteInfo } from "@/lib/utils";
 import { revalidatePath } from "next/cache";
 
 // Internal
@@ -15,7 +17,8 @@ function random(): number {
 // Keep random rides static
 export const generateRides = async () => {
     // Step 1: Get locations
-    const locations = await getLocations(1, 200);
+    // const locations = await getLocations(1, 200);
+    const locations = await getLocations(1, 20);
 
     // Step 2: Shuffle
     seed = 402512;
@@ -24,33 +27,59 @@ export const generateRides = async () => {
         .map(({ value }) => value);
     
     // Step 3: Starts & Ends
-    const starts = shuffled.slice(0, 100);
-    const ends = shuffled.slice(100, 200);
+    // const starts = shuffled.slice(0, 100);
+    // const ends = shuffled.slice(100, 200);
+    const starts = shuffled.slice(0, 10);
+    const ends = shuffled.slice(10, 20);
 
+    const currentTime= new Date(Date.now());
     // Step 4: Build ride data
     seed = 84812;
     const rides = starts.map((_, i) => ({
-        id: i,
         start_latitude: starts[i].latitude,
         start_longitude: starts[i].longitude,
         end_latitude: ends[i].latitude,
         end_longitude: ends[i].longitude,
         collected: false,
         time: 0,
+        start_time: currentTime,
+        traffic_delay: 0,
+        historic_time: 0,
+        no_traffic_time: 0,
         distance: 0,
         price: 0
     }));
 
     // Fill in the TomTom data (?)
     for (let i = 0; i < rides.length; i++) {
-        // ...
+        let startCoord = rides[i].start_latitude.toString() +","+ rides[i].start_longitude.toString();
+        let endCoord = rides[i].end_latitude.toString() +","+ rides[i].end_longitude.toString();
+        let time= rides[i].start_time.toISOString().slice(0,-5)
+
+        const fetchData = async()=>{
+            const routeInfo= await getRouteInfo(startCoord,endCoord,time)
+            console.log(routeInfo);
+            rides[i].time=routeInfo.travelTimeInSeconds;
+            rides[i].traffic_delay=routeInfo.trafficDelayInSeconds;
+            rides[i].historic_time=routeInfo.historicTrafficTravelTimeInSeconds;
+            rides[i].no_traffic_time=routeInfo.noTrafficTravelTimeInSeconds;
+            rides[i].distance=routeInfo.lengthInMeters;
+
+            await db
+                .insertInto('ride')
+                .values(rides)
+                .executeTakeFirstOrThrow();
+        };
+        fetchData();
+
+
     }
     
     // Write ride data
-    await db
-        .insertInto('ride')
-        .values(rides)
-        .executeTakeFirstOrThrow();
+    // await db
+    //     .insertInto('ride')
+    //     .values(rides)
+    //     .executeTakeFirstOrThrow();
 }
 
 // Randomly generate rides for now

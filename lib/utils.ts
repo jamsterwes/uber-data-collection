@@ -1,6 +1,6 @@
 import { type ClassValue, clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
-import axios from 'axios';
+import axios, { all } from 'axios';
 
 const API_KEY = process.env.TOMTOM_API_KEY;
 const tomtomClient =axios.create({
@@ -17,7 +17,8 @@ export const getRouteInfo = async (startCoordinate: string, endCoordinate: strin
     const response = await tomtomClient.get('/routing/1/calculateRoute/' + startCoordinate + ':' + endCoordinate + '/json', {
       params: {
         key: API_KEY,
-        departureDateTime: time,
+        departAt: time,
+        computeTravelTimeFor: 'all',
         traffic: 'true',
       },
     });
