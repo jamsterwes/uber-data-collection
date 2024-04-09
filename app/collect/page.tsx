@@ -15,5 +15,5 @@ export default async function CollectHomePage() {
     const randomRide = uncollectedRides[Math.floor(Math.random() * (uncollectedRides.length - 1))];
 
     // Now route to ID
-    redirect(`/collect/${randomRide.id}`)
+    redirect(`/collect/${randomRide.id-29}`) //change to -4 if more issues happen
 }

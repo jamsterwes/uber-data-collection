@@ -18,7 +18,7 @@ function random(): number {
 export const generateRides = async () => {
     // Step 1: Get locations
     // const locations = await getLocations(1, 200);
-    const locations = await getLocations(1, 20);
+    const locations = await getLocations(1, 10);
 
     // Step 2: Shuffle
     seed = 402512;
@@ -29,8 +29,8 @@ export const generateRides = async () => {
     // Step 3: Starts & Ends
     // const starts = shuffled.slice(0, 100);
     // const ends = shuffled.slice(100, 200);
-    const starts = shuffled.slice(0, 10);
-    const ends = shuffled.slice(10, 20);
+    const starts = shuffled.slice(0, 5);
+    const ends = shuffled.slice(5, 10);
 
     const currentTime= new Date(Date.now());
     // Step 4: Build ride data
@@ -67,7 +67,7 @@ export const generateRides = async () => {
 
             await db
                 .insertInto('ride')
-                .values(rides)
+                .values(rides[i])
                 .executeTakeFirstOrThrow();
         };
         fetchData();
@@ -144,7 +144,8 @@ export async function updateRideWithPrice(id: number, price: number) {
         .updateTable('ride')
         .where('id', '=', id)
         .set({
-            price: price
+            price: price,
+            collected: true
         })
         .execute();
 }
